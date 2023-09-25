@@ -1,0 +1,284 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Faculty API",
+      "description": "API for managing staff, offices, and courses in the Faculty of Computing and Informatics.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:2023",
+        "description": "Local development server"
+      }
+    ],
+    "paths": {
+      "/lecturers": {
+        "post": {
+          "summary": "Add a new lecturer",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lecturer"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Lecturer added successfully"
+            }
+          }
+        },
+        "get": {
+          "summary": "Retrieve a list of all lecturers",
+          "responses": {
+            "200": {
+              "description": "List of lecturers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/lecturers/{lecturerNumber}": {
+        "get": {
+          "summary": "Retrieve details of a specific lecturer by their lecturer number",
+          "parameters": [
+            {
+              "name": "lecturerNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Lecturer number"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lecturer details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Lecturer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update an existing lecturer's information",
+          "parameters": [
+            {
+              "name": "lecturerNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Lecturer number"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lecturer"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Lecturer updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a lecturer's record by their lecturer number",
+          "parameters": [
+            {
+              "name": "lecturerNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Lecturer number"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lecturer deleted successfully"
+            }
+          }
+        }
+      },
+      "/lecturers/byCourse/{courseCode}": {
+        "get": {
+          "summary": "Retrieve all the lecturers that teach a certain course",
+          "parameters": [
+            {
+              "name": "courseCode",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Course code"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of lecturers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/lecturers/byOffice/{officeNumber}": {
+        "get": {
+          "summary": "Retrieve all the lecturers that sit in the same office",
+          "parameters": [
+            {
+              "name": "officeNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Office number"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of lecturers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/offices": {
+        "post": {
+          "summary": "Add a new office",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Office"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Office added successfully"
+            }
+          }
+        }
+      },
+      "/courses": {
+        "post": {
+          "summary": "Add a new course",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Courses"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Course added successfully"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Lecturer": {
+          "type": "object",
+          "properties": {
+            "lecturerNumber": {
+              "type": "string"
+            },
+            "officeNumber": {
+              "type": "string"
+            },
+            "lecturerName": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": ["lecturerNumber", "officeNumber", "lecturerName", "title"]
+        },
+        "Office": {
+          "type": "object",
+          "properties": {
+            "officeNumber": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "capacity": {
+              "type": "integer"
+            },
+            "lecturer": {
+              "type": "string"
+            }
+          },
+          "required": ["officeNumber", "location", "capacity", "lecturer"]
+        },
+        "Courses": {
+          "type": "object",
+          "properties": {
+            "courseCode": {
+              "type": "string"
+            },
+            "courseName": {
+              "type": "string"
+            },
+            "NQFLevel": {
+              "type": "integer"
+            }
+          },
+          "required": ["courseCode", "courseName", "NQFLevel"]
+        }
+      }
+    }
+  }
+  
