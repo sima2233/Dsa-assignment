@@ -1,0 +1,109 @@
+syntax = "proto3";
+  
+package library;
+
+service LibraryService{
+   // adding a book
+   rpc add_book(book) returns (book);
+
+   // creating users
+   rpc create_user(stream user) returns (user);
+
+   // update a book 
+   rpc update_book(book) returns (book);
+
+   // remove a book
+   rpc remove_book(bookremove) returns (book);
+
+   // list all available books
+   rpc list_available_books(Empty) returns (stream book);
+
+   // locating a book
+   rpc locate_book(book) returns (booklocation);
+
+   // borrowing a book
+   rpc borrow_book(borrowedbook) returns (borrowBookResponse);
+
+}
+
+message book{
+    string isbn = 1;
+    string name = 2;
+    string author = 3;
+    string location = 4;
+    string status = 5;
+    string opt_author = 6;
+}
+
+message Empty{}
+
+
+message create_user{
+    string userid = 1;
+    string username = 3;
+    string pw = 2;
+}
+
+message update_book{
+    book isbn = 1;
+    book name = 2;
+}
+
+message add_book{
+    string isbn = 1;
+    string name = 2;
+    string author = 3;
+    string opt_author = 4;
+    string location = 5;
+    string status = 6;
+
+
+}
+message remove_book{
+    book isbn = 1;
+    book name = 2;
+}
+
+message list_available_books{
+
+
+
+}
+message locate_book{
+    book isbn = 1;
+    bool result = 2;
+    string location =  3;
+}
+
+message borrowedbook{
+    user userid = 4;
+    book isbn = 1;
+    book name = 2;
+    book status = 3;
+    
+}
+
+
+message user{
+    string username = 1;
+    string userid = 2;
+    string pw = 3;
+    
+}
+message booklocation{
+    string location = 1;
+}
+message bookremove{
+    book isbn = 1;
+    book name = 2;
+
+}
+
+message borrowBookResponse{
+    string book_response = 1;
+}
+message borrow_book{
+ book isbn = 1;
+ book name = 2;
+ book status = 3;
+}
